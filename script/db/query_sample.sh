@@ -42,7 +42,7 @@ SELECT u1.user_name FROM
 
 # ライオンが与えたポイント一覧化する
 refer_user_command "
-SELECT * FROM transaction_schema.give_point_record_table as gpr
+SELECT * FROM transaction_schema.give_record_table as gpr
   WHERE gpr.relationship_id IN (
     SELECT relationship_id FROM master_schema.relationship_table as r
       WHERE r.superior_user_id = (

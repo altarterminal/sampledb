@@ -72,6 +72,8 @@ GRANT USAGE ON SCHEMA transaction_schema To refer_role;'
 manage_all_user_command '
 CREATE TABLE master_schema.user_table(
   user_id SERIAL,
+  user_login_id TEXT,
+  user_login_password TEXT,
   user_name TEXT,
   user_favorite TEXT,
   user_especially TEXT
@@ -85,16 +87,16 @@ CREATE TABLE master_schema.relationship_table(
 );'
 
 manage_all_user_command '
-CREATE TABLE master_schema.give_point_table(
-  give_point_id SERIAL,
-  give_category TEXT,
+CREATE TABLE master_schema.give_category_table(
+  give_category_id SERIAL,
+  give_category_name TEXT,
   default_give_point INTEGER
 );'
 
 manage_all_user_command '
-CREATE TABLE master_schema.use_point_table(
-  use_point_id SERIAL,
-  use_category TEXT,
+CREATE TABLE master_schema.use_category_table(
+  use_category_id SERIAL,
+  use_category_name TEXT,
   default_use_point INTEGER
 );'
 
@@ -103,20 +105,29 @@ CREATE TABLE master_schema.use_point_table(
 #####################################################################
 
 manage_all_user_command '
-CREATE TABLE transaction_schema.give_point_record_table(
-  give_point_record_id SERIAL,
+CREATE TABLE transaction_schema.give_record_table(
+  give_record_id SERIAL,
   relationship_id INTEGER,
   occur_date TIMESTAMP,
-  give_point_id INTEGER,
+  give_category_id INTEGER,
   give_point INTEGER
 );'
 
 manage_all_user_command '
-CREATE TABLE transaction_schema.use_point_record_table(
-  use_point_record_id SERIAL,
+CREATE TABLE transaction_schema.use_record_table(
+  use_record_id SERIAL,
   relationship_id INTEGER,
   occur_date TIMESTAMP,
-  use_point_id INTEGER,
+  use_category_id INTEGER,
+  use_point INTEGER
+);'
+
+manage_all_user_command '
+CREATE TABLE transaction_schema.use_request_table(
+  use_request_id SERIAL,
+  relationship_id INTEGER,
+  occur_date TIMESTAMP,
+  use_category_id INTEGER,
   use_point INTEGER
 );'
 
@@ -147,16 +158,20 @@ master_schema.relationship_table_relationship_id_seq To manage_master_role;'
 
 manage_all_user_command '
 GRANT USAGE ON SEQUENCE
-master_schema.give_point_table_give_point_id_seq To manage_master_role;'
+master_schema.give_category_table_give_category_id_seq To manage_master_role;'
 
 manage_all_user_command '
 GRANT USAGE ON SEQUENCE
-master_schema.use_point_table_use_point_id_seq To manage_master_role;'
+master_schema.use_category_table_use_category_id_seq To manage_master_role;'
 
 manage_all_user_command '
 GRANT USAGE ON SEQUENCE
-transaction_schema.give_point_record_table_give_point_record_id_seq To manage_transaction_role;'
+transaction_schema.give_record_table_give_record_id_seq To manage_transaction_role;'
 
 manage_all_user_command '
 GRANT USAGE ON SEQUENCE
-transaction_schema.use_point_record_table_use_point_record_id_seq To manage_transaction_role;'
+transaction_schema.use_record_table_use_record_id_seq To manage_transaction_role;'
+
+manage_all_user_command '
+GRANT USAGE ON SEQUENCE
+transaction_schema.use_request_table_use_request_id_seq To manage_transaction_role;'
